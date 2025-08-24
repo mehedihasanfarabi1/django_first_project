@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Home | MySite{% endblock %}
+
+{% block content %}
+  {% include "hero.html" %}
+  {% include "service.html" %}
+  {% include "about.html" %}
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to start your project?</h2>
+      <p>Contact us today and let’s bring your ideas to life.</p>
+      <a href="#" class="btn-primary">Contact Us</a>
+    </div>
+  </section>
+{% endblock %}

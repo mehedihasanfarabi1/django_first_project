@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us | MySite{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero / Banner -->
+<section class="about-hero">
+  <div class="container">
+    <h1>About Us</h1>
+    <p>We craft digital products that help businesses grow and users smile.</p>
+  </div>
+</section>
+
+<!-- Intro (two-column) -->
+<section class="about-intro">
+  <div class="container intro-wrap">
+    <div class="intro-text">
+      <h2>Who We Are</h2>
+      <p>
+        We’re a team of designers, engineers, and strategists passionate about solving
+        real-world problems with elegant software. From concept to launch, we partner
+        closely with our clients to deliver measurable impact.
+      </p>
+      <ul class="bullets">
+        <li>Human-centered design & research</li>
+        <li>Reliable, scalable engineering</li>
+        <li>Long-term product strategy</li>
+      </ul>
+    </div>
+    <div class="intro-image">
+      <img src="{% static 'images/about-hero.jpg' %}" alt="Team at work">
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="values">
+  <div class="container">
+    <h2>Our Values</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <img src="{% static 'images/icons/innovation.svg' %}" alt="">
+        <h3>Innovation</h3>
+        <p>We push boundaries to find smarter, faster solutions.</p>
+      </div>
+      <div class="value-card">
+        <img src="{% static 'images/icons/quality.svg' %}" alt="">
+        <h3>Quality</h3>
+        <p>Clean code, intuitive UX, and robust infrastructure.</p>
+      </div>
+      <div class="value-card">
+        <img src="{% static 'images/icons/trust.svg' %}" alt="">
+        <h3>Trust</h3>
+        <p>Transparent process, on-time delivery, no surprises.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat">
+      <span class="num">50+</span>
+      <span class="label">Projects</span>
+    </div>
+    <div class="stat">
+      <span class="num">20+</span>
+      <span class="label">Happy Clients</span>
+    </div>
+    <div class="stat">
+      <span class="num">5 yrs</span>
+      <span class="label">Experience</span>
+    </div>
+    <div class="stat">
+      <span class="num">99%</span>
+      <span class="label">On-time Delivery</span>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="team">
+  <div class="container">
+    <h2>Meet the Team</h2>
+    <div class="team-grid">
+      <div class="member">
+        <img src="{% static 'images/team1.jpg' %}" alt="Member">
+        <h4>Alex Morgan</h4>
+        <p>Product Designer</p>
+      </div>
+      <div class="member">
+        <img src="{% static 'images/team2.jpg' %}" alt="Member">
+        <h4>Jordan Lee</h4>
+        <p>Full‑stack Engineer</p>
+      </div>
+      <div class="member">
+        <img src="{% static 'images/team3.jpg' %}" alt="Member">
+        <h4>Taylor Kim</h4>
+        <p>Project Manager</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="about-cta">
+  <div class="container">
+    <h2>Want to build something great together?</h2>
+    <p>Tell us about your idea—we’ll help you plan, design, and launch it.</p>
+    <a href="#" class="btn-primary">Contact Us</a>
+  </div>
+</section>
+
+{% endblock %}

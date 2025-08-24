@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Services | MySite{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero / Banner -->
+<section class="svc-hero">
+  <div class="container">
+    <h1>Our Services</h1>
+    <p>We deliver end‑to‑end digital solutions — from strategy to launch and beyond.</p>
+  </div>
+</section>
+
+<!-- Service Grid -->
+<section class="svc-grid">
+  <div class="container">
+    <div class="grid">
+      <article class="card">
+        <img src="{% static 'images/icons/web.svg' %}" alt="Web Dev">
+        <h3>Web Development</h3>
+        <p>Modern, responsive, SEO‑friendly websites powered by robust backends.</p>
+        <ul class="bullets">
+          <li>React / Next.js, Django</li>
+          <li>API & integrations</li>
+          <li>Performance & SEO</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <img src="{% static 'images/icons/app.svg' %}" alt="App Design">
+        <h3>App Design</h3>
+        <p>Human‑centered UI/UX for delightful and accessible digital products.</p>
+        <ul class="bullets">
+          <li>Wireframe → Prototype</li>
+          <li>Design systems</li>
+          <li>Usability testing</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <img src="{% static 'images/icons/cloud.svg' %}" alt="Cloud">
+        <h3>Cloud & DevOps</h3>
+        <p>Secure, scalable infra with CI/CD, monitoring, and cost optimization.</p>
+        <ul class="bullets">
+          <li>Docker / K8s</li>
+          <li>CI/CD pipelines</li>
+          <li>Logging & alerts</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <img src="{% static 'images/icons/marketing.svg' %}" alt="Marketing">
+        <h3>Digital Marketing</h3>
+        <p>Data‑driven growth with SEO, paid ads, and conversion optimization.</p>
+        <ul class="bullets">
+          <li>Search & Social</li>
+          <li>Analytics & A/B tests</li>
+          <li>Content strategy</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Process / How we work -->
+<section class="process">
+  <div class="container">
+    <h2>How We Work</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="num">01</span>
+        <h4>Discover</h4>
+        <p>Workshops to clarify goals, users, and constraints.</p>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <h4>Design</h4>
+        <p>Rapid prototyping and feedback‑driven iterations.</p>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <h4>Build</h4>
+        <p>Agile sprints with transparent progress tracking.</p>
+      </div>
+      <div class="step">
+        <span class="num">04</span>
+        <h4>Launch & Scale</h4>
+        <p>Deployment, monitoring, and continuous improvement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing (optional) -->
+<section class="pricing">
+  <div class="container">
+    <h2>Simple Pricing</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>Starter</h3>
+        <p class="price">$899</p>
+        <ul>
+          <li>Single‑page site</li>
+          <li>Basic SEO</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#" class="btn-primary">Choose</a>
+      </div>
+      <div class="plan featured">
+        <h3>Business</h3>
+        <p class="price">$2,499</p>
+        <ul>
+          <li>Multi‑page site / app</li>
+          <li>API integration</li>
+          <li>Performance & analytics</li>
+        </ul>
+        <a href="#" class="btn-primary">Choose</a>
+      </div>
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <p class="price">Custom</p>
+        <ul>
+          <li>Dedicated team</li>
+          <li>DevOps & security</li>
+          <li>SLAs & training</li>
+        </ul>
+        <a href="#" class="btn-primary">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <h2>FAQs</h2>
+    <details>
+      <summary>প্রজেক্ট টাইমলাইন কেমন হয়?</summary>
+      <p>স্কোপ অনুযায়ী ২–১২ সপ্তাহ। ডিসকভারি শেষে ডিটেইল টাইমলাইন দেই।</p>
+    </details>
+    <details>
+      <summary>পেমেন্ট টার্মস?</summary>
+      <p>সাধারণত 50% অগ্রিম, বাকিটা মাইলস্টোন/ডেলিভারির সময়।</p>
+    </details>
+    <details>
+      <summary>মেইন্টেন্যান্স কি পাবো?</summary>
+      <p>হ্যাঁ—মেইন্টেন্যান্স/সাপোর্ট প্যাকেজ রয়েছে (মনিটরিং, আপডেট, বাগ ফিক্স)।</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="svc-cta">
+  <div class="container">
+    <h2>Ready to build with us?</h2>
+    <p>Share your goals — we’ll propose the best plan.</p>
+    <a href="#" class="btn-primary">Get a Quote</a>
+  </div>
+</section>
+
+{% endblock %}

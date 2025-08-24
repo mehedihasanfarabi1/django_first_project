@@ -1,0 +1,54 @@
+
+
+<html>
+    <title>{{title}}</title>
+
+    <style>
+      
+
+    </style>
+    <body>
+
+        <h2>
+            {{datas}} 
+        </h2>
+        {%for n in list%}
+        <div>
+            <!-- {{forloop.counter}}  -->
+           {{forloop.counter0}} {{n}}
+        </div>
+        {%endfor%}
+
+        <br>
+        <br>
+
+        <table border="1" cellpadding="10">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+            {% for data in student_details%}
+            <tr>
+                <td>
+                    {{data.name}}
+                </td>
+                <td>
+                  {{data.age}} 
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+        {%if numbers|length > 0 %}
+        {%for i in numbers%}
+
+        {%if i > 30%}
+           <br> {{i}}
+           {%endif%}
+        {%endfor%}
+        {%else%}
+        No Data Found
+        {% endif%}
+    </body>    
+</html>
