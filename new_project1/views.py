@@ -3,32 +3,162 @@ from django.shortcuts import render,redirect
 from .form import usersForm
 from services.models import Service
 from news.models import News
+from django.core.paginator import Paginator
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
+
+
+def send_test_mail(request):
+    subject = "Welcome to the new site from Mehedi Hasan"
+    from_email = "softwaredevelopers400@gmail.com"
+    recipient_list = ["rrokon304@gmail.com","mehedihasanfarabi10@gmail.com"]
+
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Welcome to MySite</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f2f5;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 600px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                overflow: hidden;
+            }
+            .header {
+                background-color: #1877f2;
+                color: #fff;
+                padding: 20px;
+                font-size: 24px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .content {
+                padding: 30px;
+                color: #333;
+                text-align: center;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .btn {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 12px 25px;
+                color: #fff;
+                background-color: #1877f2;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            .footer {
+                background-color: #f0f2f5;
+                padding: 15px;
+                text-align: center;
+                font-size: 14px;
+                color: #777;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                MySite
+            </div>
+            <div class="content">
+                <h2>Welcome to MySite!</h2>
+                <p>Thanks for joining us. Click the button below to visit our homepage.</p>
+                <a href="http://127.0.0.1:8000" class="btn">Visit Homepage</a>
+            </div>
+            <div class="footer">
+                &copy; 2025 MySite. All rights reserved.
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+    msg = EmailMultiAlternatives(subject, "", from_email, recipient_list)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+    return HttpResponse("✅ Email Sent!")
+
+
 
 def homePage(request):
     newsData = News.objects.all()
-    serviceData = Service.objects.all().order_by('-service_title')[:2]
-    # for i in serviceData:
-    #     print(i.service_icon)
-    
-    if request.method == "GET":
-        search_str = request.GET.get('searchBox')
-        if search_str:
-            serviceData = Service.objects.filter(service_title__icontains=search_str)
-    data = {
-        'serviceData':serviceData,
-        'newsData':newsData
+
+    # Search functionality
+    search_str = request.GET.get('searchBox')
+    if search_str:
+        serviceData = Service.objects.filter(service_title__icontains=search_str)
+    else:
+        serviceData = Service.objects.all()
+
+    # Pagination
+    paginator = Paginator(serviceData, 1)  # 3 items per page
+    page_number = request.GET.get('page')
+    finalServicePaginatorData = paginator.get_page(page_number)
+
+    # Pre-calculate variables for template
+    current = finalServicePaginatorData.number
+    prev_page = current - 1
+    next_page = current + 1
+    total_pages = paginator.num_pages
+
+    context = {
+        'serviceData': finalServicePaginatorData,
+        'newsData': newsData,
+        'search_str': search_str,
+        'current': current,
+        'prev_page': prev_page,
+        'next_page': next_page,
+        'total_pages': total_pages
     }
-    return render(request,'index.html',data)
+    return render(request, 'index.html', context)
+
+# def homePage(request):
+#     newsData = News.objects.all()
+#     # serviceData = Service.objects.all().order_by('-service_title')[:2]
+#      # for i in serviceData:
+#     #     print(i.service_icon)
+#     search_str = request.GET.get('searchBox')
+    
+#     if search_str:
+#         serviceData = Service.objects.filter(service_title__icontains=search_str)
+#     else:
+#         serviceData = Service.objects.all()
+    
+#     # Pagination
+#     paginator = Paginator(serviceData, 1)  # 3 per page
+#     page_number = request.GET.get('page')
+#     finalServicePaginatorData = paginator.get_page(page_number)
+
+#     data = {
+#         'serviceData': finalServicePaginatorData,
+#         'newsData': newsData,
+#         'search_str': search_str  # Optional: to keep search input value
+#     }
+#     return render(request,'index.html',data)
 
 
 def aboutUs(request):
     return render(request,'about-us.html')
 
-def newsDetails(request, newsId):
-    newsData = News.objects.get(id=newsId)
+def newsDetails(request, slug):
+    newsData = News.objects.get(news_slug=slug)
     
     data = {
-        'newsId': newsId,
+        'slug': slug,
         'newsData': newsData
     }
     return render(request, 'newsDetail.html', data)

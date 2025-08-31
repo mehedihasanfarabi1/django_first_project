@@ -11,7 +11,7 @@
     body {
       background: linear-gradient(135deg, #a8edea, #fed6e3);
       min-height: 100vh;
-      display:block;
+      display: block;
       align-items: center;
       justify-content: center;
     }
@@ -41,6 +41,21 @@
       font-weight: bold;
     }
   </style>
+
+  <script>
+    function validateMarks(input) {
+      const value = parseInt(input.value, 10);
+      if (value > 100) {
+        alert("Marks cannot be greater than 100!");
+        input.value = "";
+        input.focus();
+      } else if (value < 0) {
+        alert("Marks cannot be negative!");
+        input.value = "";
+        input.focus();
+      }
+    }
+  </script>
 {% endblock %}
 
 {% block content %}
@@ -52,32 +67,32 @@
 
       <div class="mb-3">
         <label class="form-label">Bangla</label>
-        <input type="number" class="form-control" name="bangla" max="100" min="0" required />
+        <input type="number" class="form-control" name="bangla" min="0" max="100" required oninput="validateMarks(this)" />
       </div>
 
       <div class="mb-3">
         <label class="form-label">English</label>
-        <input type="number" class="form-control" name="english" max="100" min="0" required />
+        <input type="number" class="form-control" name="english" min="0" max="100" required oninput="validateMarks(this)" />
       </div>
 
       <div class="mb-3">
         <label class="form-label">Math</label>
-        <input type="number" class="form-control" name="math" max="100" min="0" required />
+        <input type="number" class="form-control" name="math" min="0" max="100" required oninput="validateMarks(this)" />
       </div>
 
       <div class="mb-3">
         <label class="form-label">Science</label>
-        <input type="number" class="form-control" name="science" max="100" min="0" required />
+        <input type="number" class="form-control" name="science" min="0" max="100" required oninput="validateMarks(this)" />
       </div>
 
       <div class="mb-3">
         <label class="form-label">Social</label>
-        <input type="number" class="form-control" name="social" max="100" min="0" required />
+        <input type="number" class="form-control" name="social" min="0" max="100" required oninput="validateMarks(this)" />
       </div>
 
       <div class="mb-3">
         <label class="form-label">ICT</label>
-        <input type="number" class="form-control" name="ict" max="100" min="0" required />
+        <input type="number" class="form-control" name="ict" min="0" max="100" required oninput="validateMarks(this)" />
       </div>
 
       <button type="submit" class="btn btn-primary w-100">Generate Result</button>
@@ -85,19 +100,11 @@
 
     {% if total is not None %}
       <div class="alert alert-info mt-4">
-        <p>
-          <strong>Total Marks:</strong> {{ total }}
-        </p>
-        <p>
-          <strong>Percentage:</strong> {{ percentage|floatformat:2 }}%
-        </p>
+        <p><strong>Total Marks:</strong> {{ total }}</p>
+        <p><strong>Percentage:</strong> {{ percentage|floatformat:2 }}%</p>
         <p>
           <strong>Grade:</strong>
-          <span class="{% if 'A+' in grade %}
-              grade-Aplus
-            {% elif 'Fail' in grade %}
-              grade-Fail
-            {% endif %}">
+          <span class="{% if 'A+' in grade %}grade-Aplus{% elif 'Fail' in grade %}grade-Fail{% endif %}">
             {{ grade }}
           </span>
         </p>
