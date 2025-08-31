@@ -1,11 +1,57 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Home | MySite{% endblock %}
+{% block title %}
+  Home | MySite
+{% endblock %}
 
 {% block content %}
-  {% include "hero.html" %}
-  {% include "service.html" %}
-  {% include "about.html" %}
+  <style>
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      background: linear-gradient(135deg, #f11a1aff, #48ff11ff);
+      padding: 12px 0;
+      border-radius: 10px;
+      margin-bottom: 7px;
+    }
+    
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #fff;
+      letter-spacing: 1px;
+      animation: scroll-left 15s linear infinite;
+      white-space: nowrap;
+    }
+    
+    /* Hover করলে Animation থেমে যাবে */
+    .marquee-container:hover .marquee-text {
+      animation-play-state: paused;
+    }
+    
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+  <div class="marquee-container">
+    <div class="marquee-text">
+      🚀 Welcome to the News Portal!{% for n in newsData %}
+        <a href="news_details/{{ n.id }}" style="color: white; font-weight: bold;">{{ n.news_title }} &nbsp;&nbsp;</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% include 'hero.html' %}
+  {% include 'service.html' %}
+  {% include 'about.html' %}
 
   <!-- CTA -->
   <section class="cta">
@@ -15,4 +61,17 @@
       <a href="#" class="btn-primary">Contact Us</a>
     </div>
   </section>
+  <form method="get" style="margin: 6px; padding: 10px; width: 80px; ">
+    <input type="text" name="searchBox" id="" placeholder="Enter Search" style="width: auto; height: 30px; margin-bottom: 4px;" />
+    <button class="" style="background-color: red; width: 100px;  height: 40px;" type="submit">Search</button>
+  </form>
+  {% for i in serviceData %}
+    <div class="card">
+      <h1>{{ i.service_icon }}</h1>
+      <h3>{{ i.service_title }}</h3>
+      <p>{{ i.service_description|upper }}</p>
+    </div>
+  {% empty %}
+    No Data Found
+  {% endfor %}
 {% endblock %}

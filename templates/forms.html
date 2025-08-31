@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Custom Form | MySite{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="form-page">
+    <div class="container">
+        <h1>User Form</h1>
+        <p>Please fill out the form below .</p>
+
+        {% if messages %}
+        <div class="flash">
+            {% for m in messages %}
+            <p class="flash-{{ m.tags }}">{{ m }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" action="" novalidate>
+            {% csrf_token %}
+            {{form}}
+       <div class="row">
+                <div class="field">
+                    <label for="fullname">Full Name</label>
+                    <input id="fullname" name="fullname" value="{{name}}" type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" value="{{email}}" placeholder="Enter your email" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label for="phone">Phone</label>
+                    <input id="phone" name="phone" type="text" placeholder="Phone">
+                </div>
+                <div class="field">
+                    <label for="address">Address</label>
+                    <input id="address" name="address" type="text" placeholder="Enter your address">
+                </div>
+            </div>
+<div class="field">
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic" required>
+          <option value="">-- Select Topic --</option>
+          <option value="support">Support</option>
+          <option value="feedback">Feedback</option>
+          <option value="business">Business Inquiry</option>
+        </select>
+      </div> 
+         <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" placeholder="Write your message..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

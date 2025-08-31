@@ -1,28 +1,45 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professional Layout</title>
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
-  <style>
-    header .active {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Professional Layout</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <style>
+      header .active {
         background-color: red;
-    }
-  </style>
-</head>
-<header class="main-header">
+      }
+    </style>
+  </head>
+  <header class="main-header">
     <div class="container">
-      <div class="logo">My<span>Site</span></div>
+      <div class="logo">
+        My<span>Site</span>
+      </div>
       <nav class="navbar">
         <ul>
-          <li class="{% if request.path == '/' %} active {%endif %}"><a href="/">Home</a></li>
-          {%url 'newabout' as url_about%}
-          <li class="{% if request.path == url_about %} active {%endif %}"><a href="{% url 'newabout' %}">About Us</a></li>
-          <li class="{% if request.path == '/services' %} active {%endif %}"><a href="/services">Services</a></li>
-          <li class="{% if request.path == '/contact' %} active {%endif %}"><a href="/contact">Contact</a></li>
+          <li class="{% if request.path == '/' %} active {% endif %}">
+            <a href="/">Home</a>
+          </li>
+          {% url 'newabout' as url_about %}
+          <li class="{% if request.path == url_about %} active {% endif %}">
+            <a href="{% url 'newabout' %}">About Us</a>
+          </li>
+          <li class="{% if request.path == '/services' %} active {% endif %}">
+            <a href="/services">Services</a>
+          </li>
+          <li class="{% if request.path == '/form' %} active {% endif %}">
+            <a href="/form">Form</a>
+          </li>
+          <li class="{% if request.path == '/calculator' %} active {% endif %}">
+            <a href="/calculator">Calculator</a>
+          </li>
+          <li class="{% if request.path == '/contact' %} active {% endif %}">
+            <a href="/contact">Contact</a>
+          </li>
         </ul>
       </nav>
     </div>
   </header>
+</html>

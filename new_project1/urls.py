@@ -26,6 +26,11 @@ urlpatterns = [
     path('about-us',views.aboutUs,name="newabout"),
     path('services',views.serviceUs),
     path('contact',views.contactUs),
+    path('form',views.form),
+    path('calculator/',views.calculator),
+    path('evenodd/',views.evenodd),
+    path('marksheet/',views.marksheet),
+    path('news_details/<int:newsId>/', views.newsDetails, name="news_details"),
     path('dynamic-route/<str:newid>',views.dynamicRoute),
     path('dynamic-route/<newids>',views.dynamicRoute1),
     

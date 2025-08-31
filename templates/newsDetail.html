@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  News Details | MySite
+{% endblock %}
+
+{% block content %}
+<section class="about" style="padding: 10px;margin-left:20px">
+    <div class="container about-container">
+      <div class="about-text">
+        <h2>{{newsData.news_title}}</h2>
+        <p>
+         {{newsData.news_desc | safe }}
+        </p>
+        <a href="#" class="btn-primary">Learn More</a>
+      </div>
+      <div class="about-img">
+        <img src="{% static 'images/service1.webp' %}" alt="About Us">
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}

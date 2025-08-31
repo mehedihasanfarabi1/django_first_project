@@ -1,0 +1,50 @@
+:root{
+  --bg-dark:#1a1a2e;
+  --brand:#00adb5;
+  --text:#333;
+  --muted:#666;
+  --border:#eef1f6;
+}
+
+.container{ width:90%; max-width:800px; margin:0 auto; }
+h1{ color:var(--bg-dark); margin-bottom:8px; }
+p{ color:var(--muted); margin-bottom:24px; }
+
+.form-page{ padding:60px 0; background:#f9fbff; }
+form{
+  background:#fff; border:1px solid var(--border);
+  border-radius:14px; padding:28px;
+  box-shadow:0 8px 18px rgba(0,0,0,.05);
+}
+
+.row{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+.field{ display:flex; flex-direction:column; margin-bottom:16px; }
+label{ font-weight:600; margin-bottom:6px; color:#222; }
+
+input, textarea, select{
+  padding:12px 14px; border:1px solid var(--border);
+  border-radius:10px; font-size:1rem;
+  background:#fff; color:#222;
+}
+input:focus, textarea:focus, select:focus{
+  border-color:var(--brand); outline:none;
+  box-shadow:0 0 0 3px rgba(0,173,181,.15);
+}
+
+.btn-primary{
+  display:inline-block; padding:12px 22px;
+  background:var(--brand); color:#fff;
+  text-decoration:none; border:none; cursor:pointer;
+  border-radius:8px; font-weight:600;
+  transition:opacity .25s;
+}
+.btn-primary:hover{ opacity:.9; }
+
+/* Flash Messages */
+.flash{ margin-bottom:16px; }
+.flash p{ padding:10px 12px; border-radius:8px; }
+.flash-success{ background:#e7f8f1; color:#176b47; border:1px solid #bfeedd; }
+.flash-error{ background:#fdecea; color:#a23a32; border:1px solid #f7c6c1; }
+
+/* Responsive */
+@media(max-width:768px){ .row{ grid-template-columns: 1fr; } }

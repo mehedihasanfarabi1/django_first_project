@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Calculator | MySite
+{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+  <style>
+   
+    
+    .calculator-card {
+      width: 100%;
+      max-width: 420px; /* Form auto width */
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .calculator-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+    
+    h3 {
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #444;
+    }
+    
+    .form-control,
+    .form-select {
+      border-radius: 12px;
+      padding: 12px 15px;
+      margin-bottom: 20px; /* Gap between fields */
+      font-size: 16px;
+    }
+    
+    .btn-primary {
+      border-radius: 30px;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+    
+    .alert {
+      border-radius: 15px;
+      font-size: 20px;
+      margin-top: 15px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="calculator-card">
+    <h3 class="text-center mb-4">🧮 Simple Calculator</h3>
+
+    <form method="post" class="needs-validation">
+      {% csrf_token %}
+
+      <!-- First Number -->
+      <label for="num1" class="form-label">First Number</label>
+      <input type="number" step="any" class="form-control" id="num1" name="num1" placeholder="Enter first number" required />
+
+      <!-- Operator -->
+      <br/>
+      <label for="operator" class="form-label">Operation</label>
+      <select class="form-select" id="operator" name="operator" required>
+        <option value="+" selected>➕ Plus</option>
+        <option value="-">➖ Minus</option>
+        <option value="*">✖️ Multiply</option>
+        <option value="/">➗ Divide</option>
+      </select>
+      <br/>
+      <!-- Second Number -->
+      <label for="num2" class="form-label">Second Number</label>
+      <input type="number" step="any" class="form-control" id="num2" name="num2" placeholder="Enter second number" required />
+      <br/>
+      <!-- Submit -->
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Calculate</button>
+      </div>
+    </form>
+
+    {% if result is not None %}
+      <div class="alert alert-success text-center mt-4">
+        <label for="result">Result : </label>
+        <input type="text" value="{{result}}" readonly>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
