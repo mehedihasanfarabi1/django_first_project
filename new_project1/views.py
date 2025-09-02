@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 def send_test_mail(request):
     subject = "Welcome to the new site from Mehedi Hasan"
     from_email = "softwaredevelopers400@gmail.com"
-    recipient_list = ["rrokon304@gmail.com","mehedihasanfarabi10@gmail.com"]
+    recipient_list = ["mehedihasanfarabi10@gmail.com"]
 
     html_content = """
     <!DOCTYPE html>
@@ -71,7 +71,7 @@ def send_test_mail(request):
     <body>
         <div class="container">
             <div class="header">
-                MySite
+                Legend IT Solutions
             </div>
             <div class="content">
                 <h2>Welcome to MySite!</h2>
@@ -79,7 +79,7 @@ def send_test_mail(request):
                 <a href="http://127.0.0.1:8000" class="btn">Visit Homepage</a>
             </div>
             <div class="footer">
-                &copy; 2025 MySite. All rights reserved.
+                &copy; 2025 Legend IT . All rights reserved.
             </div>
         </div>
     </body>

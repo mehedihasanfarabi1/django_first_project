@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Product List{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4 text-center">📦 Product List</h2>
+    <a href="{% url 'product_create' %}" class="btn btn-success mb-3">+ Add New Product</a>
+
+    <div class="row">
+        {% for p in products %}
+        <div class="col-md-4 mt-2 mb-4">
+            <div class="card shadow-sm">
+                <img src="{{ p.main_image.url }}" class="card-img-top" alt="{{ p.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ p.name }}</h5>
+                    <p>Price: ${{ p.price }}</p>
+                    <p>Quantity: {{ p.quantity }}</p>
+                    <p>Sizes:
+                        {% for s in p.sizes_list %}
+                            <span class="badge bg-primary">{{ s }}</span>
+                        {% endfor %}
+                    </p>
+                    <p>Colors:
+                        {% for c in p.colors_list %}
+                            <span class="badge bg-secondary">{{ c }}</span>
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -23,6 +23,8 @@ urlpatterns = [
     path('dynamic-route/<newids>',views.dynamicRoute1),
     path('contact/', include('contacts.urls')),
     path('sendmail/', send_test_mail),
+    path('', include('products.urls')),
+    path('', include('billing.urls')),
 
 ]
 

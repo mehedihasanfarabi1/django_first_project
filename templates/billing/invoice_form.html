@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}{% if invoice %}Edit{% else %}Create{% endif %} Invoice{% endblock %}
+
+{% block head_extra %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  .items-table input { min-width: 100px; }
+  .line-total { text-align: right; }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">{% if invoice %}Edit{% else %}Create{% endif %} Invoice</h5>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data" id="invoice-form">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        <!-- Invoice Header -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Customer</label>
+            {{ form.customer|add_class:"form-select" }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Invoice Number</label>
+            {{ form.number|add_class:"form-control" }}
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Date</label>
+            {{ form.date|add_class:"form-control" }}
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Due date</label>
+            {{ form.due_date|add_class:"form-control" }}
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-3">
+            <label class="form-label">Status</label>
+            {{ form.status|add_class:"form-select" }}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Discount Type</label>
+            {{ form.discount_type|add_class:"form-select" }}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Discount Value</label>
+            {{ form.discount_value|add_class:"form-control" }}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Tax Rate (%)</label>
+            {{ form.tax_rate|add_class:"form-control" }}
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Shipping</label>
+            {{ form.shipping|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Attachment</label>
+            {{ form.attachment|add_class:"form-control" }}
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Notes</label>
+          {{ form.notes|add_class:"form-control" }}
+        </div>
+
+        <hr>
+        <h6>Items</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle items-table">
+            <thead class="table-light">
+              <tr>
+                <th style="width:25%">Title</th>
+                <th style="width:25%">Description</th>
+                <th style="width:15%">Qty</th>
+                <th style="width:15%">Unit Price</th>
+                <th style="width:15%">Line Total</th>
+                <th style="width:5%"></th>
+              </tr>
+            </thead>
+            <tbody id="items-body">
+              {% for f in formset %}
+              <tr class="item-row">
+                {{ f.id }}  <!-- hidden field for existing items -->
+                <td>{{ f.title|add_class:"form-control" }}</td>
+                <td>{{ f.description|add_class:"form-control" }}</td>
+                <td>{{ f.quantity|add_class:"form-control" }}</td>
+                <td>{{ f.unit_price|add_class:"form-control" }}</td>
+                <td class="line-total">{{ f.instance.line_total|default:"0.00" }}</td>
+                <td>{% if not forloop.first %}<button type="button" class="btn btn-sm btn-outline-danger remove-row">✕</button>{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <button type="button" class="btn btn-outline-secondary mb-3" id="add-row">+ Add Item</button>
+
+        <div class="row justify-content-end">
+          <div class="col-md-6">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between"><span>Subtotal</span><strong id="subtotal">0.00</strong></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Discount</span><strong id="discount">0.00</strong></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Tax</span><strong id="tax">0.00</strong></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Shipping</span><strong id="ship">0.00</strong></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Grand Total</span><strong id="grand">0.00</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="text-end mt-4">
+          <button type="submit" class="btn btn-primary">{% if invoice %}Update{% else %}Create{% endif %} Invoice</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  const prefix = 'items';
+  const totalForms = $('#id_' + prefix + '-TOTAL_FORMS');
+
+  function recalc() {
+    let subtotal = 0;
+    $('#items-body tr.item-row').each(function(){
+      const qty = parseFloat($(this).find('input[name*="quantity"]').val() || '0');
+      const price = parseFloat($(this).find('input[name*="unit_price"]').val() || '0');
+      const lt = qty * price;
+      $(this).find('.line-total').text(lt.toFixed(2));
+      subtotal += lt;
+    });
+
+    $('#subtotal').text(subtotal.toFixed(2));
+
+    const discType = $('#id_discount_type').val();
+    const discVal = parseFloat($('#id_discount_value').val() || '0');
+    let discount = (discType === 'percent') ? subtotal*(discVal/100) : discVal;
+    $('#discount').text(discount.toFixed(2));
+
+    const taxRate = parseFloat($('#id_tax_rate').val() || '0');
+    const tax = (subtotal - discount) * (taxRate/100);
+    $('#tax').text(tax.toFixed(2));
+
+    const shipping = parseFloat($('#id_shipping').val() || '0');
+    $('#ship').text(shipping.toFixed(2));
+
+    const grand = subtotal - discount + tax + shipping;
+    $('#grand').text(grand.toFixed(2));
+  }
+
+  $('#invoice-form').submit(function(){
+    $('#items-body tr.item-row').each(function(){
+      const qty = $(this).find('input[name*="quantity"]').val().trim();
+      const title = $(this).find('input[name*="title"]').val().trim();
+      if(!title || !qty){
+        $(this).remove();  // ফাঁকা row remove
+      }
+    });
+  });
+
+  $(document).on('input change', 'input, select', recalc);
+
+  $('#add-row').click(function(){
+    const formNum = parseInt(totalForms.val(),10);
+    const empty = `
+      <tr class="item-row">
+        <td><input type="text" name="${prefix}-${formNum}-title" class="form-control"></td>
+        <td><input type="text" name="${prefix}-${formNum}-description" class="form-control"></td>
+        <td><input type="number" step="0.01" name="${prefix}-${formNum}-quantity" class="form-control" value="1"></td>
+        <td><input type="number" step="0.01" name="${prefix}-${formNum}-unit_price" class="form-control" value="0.00"></td>
+        <td class="line-total">0.00</td>
+        <td><button type="button" class="btn btn-sm btn-outline-danger remove-row">✕</button></td>
+      </tr>`;
+    $('#items-body').append(empty);
+    totalForms.val(formNum + 1);
+    recalc();
+  });
+
+  $('#items-body').on('click','.remove-row',function(){
+    $(this).closest('tr').remove();
+    recalc();
+  });
+
+  recalc();
+});
+</script>
+{% endblock %}

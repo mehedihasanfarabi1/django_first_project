@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'services',
     'tinymce',
     'news',
-    'contacts'
+    'contacts',
+    'products',
+    'billing',
+    'widget_tweaks'
     
 ]
 
@@ -77,13 +80,17 @@ WSGI_APPLICATION = 'new_project1.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'new_db',       # তোমার database name
+        'USER': 'postgres',       # PostgreSQL user
+        'PASSWORD': '1234',  # user password
+        'HOST': 'localhost',          # যদি local server হয়
+        'PORT': '5432',               # default PostgreSQL port
     }
 }
+
 
 
 # Password validation
